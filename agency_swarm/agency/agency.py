@@ -240,7 +240,7 @@ class Agency:
             demo.queue()
 
         # Launch the demo
-        demo.launch(share=share)
+        demo.launch(share=share, port=7861)
         return demo
 
     def _recipient_agent_completer(self, text, state):
