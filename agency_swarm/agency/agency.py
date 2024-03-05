@@ -542,7 +542,7 @@ class Agency:
                                                   "sent in separate message. Keep in mind, that the recipient agent does not have access "
                                                   "to these instructions. You must include recipient agent-specific instructions "
                                                   "in the message parameter.")
-            recipient: recipients = Field(..., description=agent_descriptions)
+            recipient: Enum = Field(..., description=agent_descriptions)
             message: str = Field(...,
                                  description="Specify the task required for the recipient agent to complete. Focus on "
                                              "clarifying what the task entails, rather than providing exact "
@@ -591,7 +591,7 @@ class Agency:
 
         class GetResponse(BaseTool):
             """This tool allows you to check the status of a task or get a response from a specified recipient agent, if the task has been completed. You must always use 'SendMessage' tool with the designated agent first."""
-            recipient: recipients = Field(...,
+            recipient: "recipients" = Field(...,
                                           description=f"Recipient agent that you want to check the status of. Valid recipients are: {recipient_names}")
 
             @field_validator('recipient')

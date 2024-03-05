@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agency Chatbot</title>
+    <!-- Link to the default theme CSS; this will be switched by the JavaScript -->
+    <link id="stylesheet" rel="stylesheet" type="text/css" href="/static/light-theme.css">
+    <!-- Include HTMX -->
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<body>
+    <header>
+        <h1>Chatbot</h1>
+        <!-- Buttons for switching themes -->
+        <button onclick="switchTheme('dark')">Dark Mode</button>
+        <button onclick="switchTheme('light')">Light Mode</button>
+    </header>
+    <main>
+        <!-- The chat window where messages will be displayed -->
+        <section id="chat" class="chat-window" hx-get="/get-messages" hx-trigger="load" hx-swap="outerHTML">
+            <!-- Placeholder content before messages are loaded -->
+            <p>Loading messages...</p>
+        </section>
+
+        <!-- The form for sending messages -->
+        <form id="chatForm" class="chat-form" hx-post="/send-message" enctype="multipart/form-data">
+            <div class="form-section">
+                <label for="recipientAgent" class="form-label">Recipient Agent</label>
+                <!-- Use HTMX to load the recipient agents on page load -->
+                <select name="recipient_agent" id="recipientAgent" class="form-select" hx-get="/get-agents" hx-trigger="load" hx-target="#recipientAgent">
+                    <!-- Placeholder option -->
+                    <option value="">Select an agent...</option>
+                </select>
+            </div>
+            <div class="form-section">
+                <label for="messageInput" class="form-label">Your Message</label>
+                <textarea name="message" id="messageInput" class="form-textarea" required></textarea>
+            </div>
+            <div class="form-section">
+                <label for="fileInput" class="form-file-label">Files</label>
+                <input type="file" name="file" id="fileInput" class="form-file-input" multiple>
+                <!-- HTMX will update this span with the names of the chosen files -->
+                <span id="file-chosen">No file chosen</span>
+            </div>
+            <div class="form-section">
+                <!-- HTMX will handle the form submission asynchronously -->
+                <button type="submit" class="form-button">Send</button>
+            </div>
+        </form>
+    </main>
+    <script src="/static/theme-switcher.js"></script>
+    <script src="/static/chat.js"></script>
+</body>
+</html>

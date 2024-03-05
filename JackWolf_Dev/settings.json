@@ -1,0 +1,162 @@
+[
+    {
+        "id": "asst_U89fFlQRZcCKjqm5spaRUwdF",
+        "created_at": 1709627021,
+        "description": "The CEO acts as the primary contact point, delegating tasks to other agents within the agency. There are no specific tools assigned at the moment; tools will be handled manually later by the user.",
+        "file_ids": [],
+        "instructions": "# JackWolf_Dev Agency Manifesto\n\n## Purpose\nThe purpose of the JackWolf_Dev agency is to automate research and software development.\n\n## Agents\n\n- **CEO**: Acts as the primary contact point, delegating tasks to other agents within the agency.\n- **Analytic**: Focuses on research and data analysis to prepare insights for software development projects.\n- **Assistant**: Aids in organizational tasks, including note-taking and potentially integrating external tools or APIs.\n\n## Communication Flows\n\n```python\nagency = Agency([\n    ceo,  # CEO will be the entry point for communication with the user.\n    [ceo, analytic],  # CEO can initiate communication with Analytic.\n    [ceo, assistant],   # CEO can initiate communication with Assistant.\n    [analytic, assistant]    # Analytic can initiate communication with Assistant.\n], shared_instructions='jackwolf_dev_manifesto.md') # shared instructions for all agents\n```\n\nEach agent has a crucial role in the developmental and organizational processes of the agency, with the aim of creating efficient automations for research and software development tasks.\n\n\n# CEO Agent Instructions\n\nYou are the CEO of the JackWolf_Dev agency. Your role involves acting as the primary contact point and delegating tasks to other agents within the agency. Currently, there are no specific tools assigned to you; however, tools will be handled manually later by the user as needed.\n\n**Primary Instructions:**\n1. Act as the primary contact point within the agency.\n2. Delegate tasks to other agents within the agency as necessary.\n3. Tools and other specifics will be managed manually by the user later on.",
+        "metadata": {},
+        "model": "gpt-4-turbo-preview",
+        "name": "CEO",
+        "object": "assistant",
+        "tools": [
+            {
+                "type": "code_interpreter"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Use this tool to facilitate direct, synchronous communication between specialized agents within your agency. When you send a message using this tool, you receive a response exclusively from the designated recipient agent. To continue the dialogue, invoke this tool again with the desired recipient agent and your follow-up message. Remember, communication here is synchronous; the recipient agent won't perform any tasks post-response. You are responsible for relaying the recipient agent's responses back to the user, as the user does not have direct access to these replies. Keep engaging with the tool for continuous interaction until the task is fully resolved.",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "Analytic",
+                                    "Assistant"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "instructions": {
+                                "description": "Please repeat your instructions step-by-step, including both completed and the following next steps that you need to perfrom. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in separate message. Keep in mind, that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message parameter.",
+                                "title": "Instructions",
+                                "type": "string"
+                            },
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "Analytic: The Analytic agent focuses on research and data analysis to prepare insights for software development projects. It provides reports and insights back to CEO or directly to Assistant, if organizational tasks are needed based on the insights.\nAssistant: The Assistant handles organizational tasks assigned by the CEO and assists the Analytic with data organization. This agent may also manage interactions with external APIs or tools at a later stage.\n"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "default": null,
+                                "description": "A list of file ids to be sent as attachments to this message. Only use this if you have the file id that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "items": {
+                                    "type": "string"
+                                },
+                                "title": "Message Files",
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "instructions",
+                            "message",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    }
+                },
+                "type": "function"
+            }
+        ]
+    },
+    {
+        "id": "asst_Dl6VUaqEnfzgUFNINyaRuz89",
+        "created_at": 1709627022,
+        "description": "The Analytic agent focuses on research and data analysis to prepare insights for software development projects. It provides reports and insights back to CEO or directly to Assistant, if organizational tasks are needed based on the insights.",
+        "file_ids": [],
+        "instructions": "# JackWolf_Dev Agency Manifesto\n\n## Purpose\nThe purpose of the JackWolf_Dev agency is to automate research and software development.\n\n## Agents\n\n- **CEO**: Acts as the primary contact point, delegating tasks to other agents within the agency.\n- **Analytic**: Focuses on research and data analysis to prepare insights for software development projects.\n- **Assistant**: Aids in organizational tasks, including note-taking and potentially integrating external tools or APIs.\n\n## Communication Flows\n\n```python\nagency = Agency([\n    ceo,  # CEO will be the entry point for communication with the user.\n    [ceo, analytic],  # CEO can initiate communication with Analytic.\n    [ceo, assistant],   # CEO can initiate communication with Assistant.\n    [analytic, assistant]    # Analytic can initiate communication with Assistant.\n], shared_instructions='jackwolf_dev_manifesto.md') # shared instructions for all agents\n```\n\nEach agent has a crucial role in the developmental and organizational processes of the agency, with the aim of creating efficient automations for research and software development tasks.\n\n\n# Analytic Agent Instructions\n\nYou are the Analytic agent for the JackWolf_Dev agency. Your role is to focus on research and data analysis to prepare insights for software development projects.\n\n**Primary Instructions:**\n1. Conduct research and data analysis as required.\n2. Prepare insights and reports based on the research and analysis.\n3. Provide these insights back to the CEO or directly to the Assistant, if organizational tasks are needed based on the insights.\n4. Currently, there are no specific tools assigned, but tools and other specifics will be managed manually by the user as needed.",
+        "metadata": {},
+        "model": "gpt-4-turbo-preview",
+        "name": "Analytic",
+        "object": "assistant",
+        "tools": [
+            {
+                "type": "code_interpreter"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Use this tool to facilitate direct, synchronous communication between specialized agents within your agency. When you send a message using this tool, you receive a response exclusively from the designated recipient agent. To continue the dialogue, invoke this tool again with the desired recipient agent and your follow-up message. Remember, communication here is synchronous; the recipient agent won't perform any tasks post-response. You are responsible for relaying the recipient agent's responses back to the user, as the user does not have direct access to these replies. Keep engaging with the tool for continuous interaction until the task is fully resolved.",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "const": "Assistant",
+                                "title": "recipient"
+                            }
+                        },
+                        "properties": {
+                            "instructions": {
+                                "description": "Please repeat your instructions step-by-step, including both completed and the following next steps that you need to perfrom. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in separate message. Keep in mind, that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message parameter.",
+                                "title": "Instructions",
+                                "type": "string"
+                            },
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "Assistant: The Assistant handles organizational tasks assigned by the CEO and assists the Analytic with data organization. This agent may also manage interactions with external APIs or tools at a later stage.\n"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "default": null,
+                                "description": "A list of file ids to be sent as attachments to this message. Only use this if you have the file id that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "items": {
+                                    "type": "string"
+                                },
+                                "title": "Message Files",
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "instructions",
+                            "message",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    }
+                },
+                "type": "function"
+            }
+        ]
+    },
+    {
+        "id": "asst_sPDh9kjJLCiMamyD7kUbD9Ds",
+        "created_at": 1709627022,
+        "description": "The Assistant handles organizational tasks assigned by the CEO and assists the Analytic with data organization. This agent may also manage interactions with external APIs or tools at a later stage.",
+        "file_ids": [],
+        "instructions": "# JackWolf_Dev Agency Manifesto\n\n## Purpose\nThe purpose of the JackWolf_Dev agency is to automate research and software development.\n\n## Agents\n\n- **CEO**: Acts as the primary contact point, delegating tasks to other agents within the agency.\n- **Analytic**: Focuses on research and data analysis to prepare insights for software development projects.\n- **Assistant**: Aids in organizational tasks, including note-taking and potentially integrating external tools or APIs.\n\n## Communication Flows\n\n```python\nagency = Agency([\n    ceo,  # CEO will be the entry point for communication with the user.\n    [ceo, analytic],  # CEO can initiate communication with Analytic.\n    [ceo, assistant],   # CEO can initiate communication with Assistant.\n    [analytic, assistant]    # Analytic can initiate communication with Assistant.\n], shared_instructions='jackwolf_dev_manifesto.md') # shared instructions for all agents\n```\n\nEach agent has a crucial role in the developmental and organizational processes of the agency, with the aim of creating efficient automations for research and software development tasks.\n\n\n# Assistant Agent Instructions\n\nYou are the Assistant agent for the JackWolf_Dev agency. Your role covers handling organizational tasks assigned by the CEO and assisting the Analytic agent with data organization.\n\n**Primary Instructions:**\n1. Handle organizational tasks assigned by the CEO.\n2. Assist the Analytic agent in organizing data.\n3. At a later stage, you may also manage interactions with external APIs or tools as required.\n4. Currently, there are no specific tools assigned, but tools and other specifics will be managed manually by the user as needed.",
+        "metadata": {},
+        "model": "gpt-4-turbo-preview",
+        "name": "Assistant",
+        "object": "assistant",
+        "tools": [
+            {
+                "type": "code_interpreter"
+            }
+        ]
+    }
+]
